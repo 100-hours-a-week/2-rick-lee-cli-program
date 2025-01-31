@@ -1,24 +1,24 @@
-/**
- * 재료들의 추상 클래스
- */
+import java.util.HashSet;
+import java.util.Set;
 
-public abstract class Food {
-    private String name;                //재료의 이름름
-    private String type;                //재료의 종류(야채, 고기, 해산물)
-    private int[] best_dgree;           //재료의 최적 익힘정도 n~m까지
-    private int how_much_cooked;        //재료의 현재 익힘 정도
-    private String[] status;             //재료의 손질 상태
-    private int status_idx = 0;          //status 배열의 인덱스
-    private boolean isCuted = false;    //재료가 잘려있는지
+public class Food {
+    protected String name;                //재료의 이름
+    protected String type;
+    protected int[] best_dgree;           //재료의 최적 익힘정도 n~m까지
+    protected int how_much_cooked=0;      //재료의 현재 익힘 정도
+    protected String[] best_status;       //각 재료타입에 맞는 최적의 요리법들
+    protected Set<String> status = new HashSet<String>();         //재료의 손질 상태
+    protected boolean isCuted = false;    //재료가 잘려있는지
 
-    protected abstract String getName();
-    protected abstract String getType();
-    protected abstract int[] getBest_dgree();
-    protected abstract int getHow_much_cooked();
-    protected abstract void setHow_much_cooked(int dgree);
-    protected abstract String[] getStatus();
-    protected abstract String getFinalStatus();
-    protected abstract void setStatus(String new_status);
-    protected abstract boolean isCuted();
-    protected abstract void setCuted();
+    protected String getName(){return this.name;}
+    protected void addStatus(String new_status){
+        status.add(new_status);
+    }
+    protected String getType(){return this.type;}
+    protected int[] getBest_dgree(){return this.best_dgree;}
+    protected int getHow_much_cooked(){return this.how_much_cooked;}
+    protected void setHow_much_cooked(int dgree){this.how_much_cooked = dgree;}
+    protected Set getStatus(){return this.status;}
+    protected boolean isCuted(){return this.isCuted;}
+    protected void setCuted(){this.isCuted = true;}
 }

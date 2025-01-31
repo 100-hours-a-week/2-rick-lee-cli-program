@@ -18,51 +18,35 @@ public class Chef {
 
     //setter, getter
     protected int getActionPoint(){return this.action_point;}
-    protected void reduceActionPoint(){this.action_point--;}
 
     //유효성 검사
     protected boolean checkCuted(Food food, String new_status){ //이미 잘려져 있는 지 확인
-        if(food.isCuted() ||                        
-        (new_status.equals("dies_cut") ||
-        new_status.equals("crushed") ||
-        new_status.equals("fine_cut") ||
-        new_status.equals("grinded") ||
-        new_status.equals("sasimi"))){
-        System.out.println("이미 잘린 재료 입니다!");
+        if(food.isCuted() &&                        
+        (new_status.equals("깍뚝썰기") ||
+        new_status.equals("다지기") ||
+        new_status.equals("채썰기") ||
+        new_status.equals("갈기") ||
+        new_status.equals("회뜨기"))){
+        System.out.println("    이미 잘린 재료 입니다!");
             return false;
         }
         return true;
     }
     
-    protected boolean checkOverlabStatus(Food food, String new_status){ // status중복 발견
-        if(food.getStatus() ==null){
-            return true;
-        }
-        Set<String> statusSet = new HashSet<>();
-        statusSet.add(new_status);
-        for (String status : food.getStatus()) {
-            if (!statusSet.add(status)) { // 중복 발견
-                System.out.println("이미" + new_status +"된 재료입니다!");
-                return false;
-            }
+
+    //상태 중복 유효성검사 + food에 새로운 상태 추가
+    protected boolean addStatus(Food food, String new_status){
+
+        checkCuted(food, new_status);
+        if(!food.getStatus().add(new_status)){  //중복된 상태가 있으면 false
+            return false;
         }
         return true;
     }
 
-    //재료의 상태 추가
-    protected boolean addStatus(Food food, String new_status){  
-
-        // 상태를 재료에 추가
-        System.out.println(food.getName()+"을(를)"+new_status+"하였습니다.");
-        food.setStatus(new_status);
-        this.action_point--;
-        return true;
-    }
-
-    protected void cooking(Food food, String new_status, int cookingtime){
-        Chef chef = new Chef();
-        if(chef.checkOverlabStatus(food, new_status)){
-            addStatus(food, new_status);
+    protected void cooking(Food food, String new_status){
+        int cookingtime=0;
+        if(addStatus(food, new_status)){
             switch (new_status) {
                 case "roasted":
                     food.setHow_much_cooked(this.roast_heat*cookingtime);
