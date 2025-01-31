@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -8,6 +9,7 @@ import java.util.Set;
  */
 
 public class Chef {
+    Scanner sc = new Scanner(System.in);
     //행동 포인트
     private int action_point = 10;
     //시간당 요리방법의 온도
@@ -35,31 +37,36 @@ public class Chef {
     
 
     //상태 중복 유효성검사 + food에 새로운 상태 추가
-    protected boolean addStatus(Food food, String new_status){
-
-        checkCuted(food, new_status);
+    protected boolean cooking(Food food, String new_status){
+        if(!checkCuted(food, new_status)){      //이미 썰린 상태면 false
+            return false;
+        }
         if(!food.getStatus().add(new_status)){  //중복된 상태가 있으면 false
             return false;
         }
         return true;
     }
 
-    protected void cooking(Food food, String new_status){
-        int cookingtime=0;
-        if(addStatus(food, new_status)){
-            switch (new_status) {
-                case "roasted":
-                    food.setHow_much_cooked(this.roast_heat*cookingtime);
-                    break;
-                case "boiled":
-                    food.setHow_much_cooked(this.boil_heat*cookingtime);
-                    break;
-                case "steamed":
-                    food.setHow_much_cooked(this.steam_heat*cookingtime);
-                    break;
-                default:
-                    break;
-            }
+    protected boolean cooking(Food food, String new_status, int cookingtime){
+        if(!checkCuted(food, new_status)){      //이미 썰린 상태면 false
+            return false;
         }
+        if(!food.getStatus().add(new_status)){  //중복된 상태가 있으면 false
+            return false;
+        }
+        switch (new_status) {
+            case "굽기":
+                food.setHow_much_cooked(this.roast_heat*cookingtime);
+                break;
+            case "볶기":
+                food.setHow_much_cooked(this.boil_heat*cookingtime);
+                break;
+            case "찌기":
+                food.setHow_much_cooked(this.steam_heat*cookingtime);
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }

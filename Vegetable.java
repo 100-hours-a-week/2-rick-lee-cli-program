@@ -1,6 +1,7 @@
-import java.util.Set;
 
-public abstract class Vegetable extends Food{
-    protected String type= "vege";                //재료의 종류(야채, 고기, 해산물)
+public class Vegetable extends Food{
+    Vegetable(){
+        this.type = "vege";
+    }
     protected String[] best_status={""};
 }

@@ -5,9 +5,8 @@ public class CLIinterface {
     Scanner sc = new Scanner(System.in);
 
     private final int foodSelection = 2;    //재료 선택지 수
-    private final int vegeSeletion = 2;     //야채 손질 선택지 수
-    private final int meetSeletion = 2;
-
+    private final int vegeSeletion = 8;     //야채 손질 선택지 수
+    private final int meetSeletion = 8;
 
     public void startMenu(){
         System.out.println("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――");
@@ -41,31 +40,27 @@ public class CLIinterface {
         System.out.println();
     }
     
-    private boolean checkFoodSelection(int input){
+
+    public void showFoodSelections(){
+        System.out.println("    재료를 골라 주세요");
+        System.out.println("    1. 양파    2. 돼지 고기");
+        System.out.println();
+        System.out.print("  입력값: ");
+    }
+    public boolean checkFoodSelection(int input){
         if(input < 1 || input > foodSelection){
             return false;
         }
         return true;
     }
-
     /**selectFood
      * 
-     * @param foodNum
+     * @param input
      * @return Food
      */
-    public Food selectFood(){
-        System.out.println("    재료를 골라 주세요");
-        System.out.println("    1. 양파    2. 돼지 고기");
-        System.out.println();
-        System.out.print("  입력값: ");
-        int input = sc.nextInt();
+    public Food selectFood(int input){
+        if(checkFoodSelection(input))
         makeLine();
-        
-        if(!checkFoodSelection(input)){     //값이 유효하지 않으면
-            System.out.println("    잘못된 선택입니다. 재료선택화면으로 돌아갑니다");
-            makeLine();
-            return null;
-        }
         switch (input) {
             case 1:
                 System.out.println("    양파를 고르셨습니다");
@@ -80,25 +75,43 @@ public class CLIinterface {
         return null;
     }
 
+
+    private void showVegeSelecton(){
+        System.out.println("    요리 방법을 골라 주세요");
+        System.out.println("    1. 채썰기    2. 깍뚝썰기    3. 다지기    4. 갈기");
+        System.out.println("    5. 볶기      6. 삶기       7. 찌기      8. 냅두기");
+        System.out.print("    입력값: ");
+    }
+
     private boolean checkVegeSelection(int input){
         if(input < 1 || input > vegeSeletion){
             return false;
         }
         return true;
     }
+    private int checkCookingTime(){
+        int cookingtime;
+        System.out.println("    요리 시간을 설정해 주세요");
+        System.out.println("    시간 단위는 분이며, 0부터 60가지 설정할 수 있습니다");
+        System.out.print("    입력값: ");
+        cookingtime = sc.nextInt();
+        makeLine();
 
+        if(cookingtime < 0 || cookingtime > 60){
+
+            return -1;
+        }
+        return cookingtime;
+
+    }
     /**selectVegePrep
      * 선택된 재료 타입이 야채이면 나오는
      * 손질 선택 인터페이스
-     * @param input
-     * @return
+     * @param Chef, Food
+     * @return 
      */
-    public boolean cookVege(Chef headChef, Food food){
-
-        System.out.println("    요리 방법을 골라 주세요");
-        System.out.println("    1. 채썰기    2. 깍뚝썰기    3. 다지기    4. 갈기");
-        System.out.println("    5. 볶기      6. 삶기       7. 찌기      8. 냅두기");
-        System.out.print("    입력값: ");
+    public boolean selectVegePrep(Chef headChef, Food food){
+        showVegeSelecton();
         int input = sc.nextInt();
         if(!checkVegeSelection(input)){ //입력값 유효성 검사
             System.out.println("    잘못된 선택입니다. 재료선택화면으로 돌아갑니다");
@@ -107,6 +120,7 @@ public class CLIinterface {
         }
 
         String new_satus = "";
+        int cookingtime = -2;
         switch (input) {
             case 1:
                 new_satus = "채썰기";
@@ -122,25 +136,41 @@ public class CLIinterface {
                 break;
             case 5:
                 new_satus = "굽기";
+                cookingtime = checkCookingTime();
                 break;
             case 6:
                 new_satus = "삶기";
+                cookingtime = checkCookingTime();
                 break;
             case 7:
                 new_satus = "찌기";
+                cookingtime = checkCookingTime();
                 break;
             case 8:
                 System.out.println("    "+food.getName()+"을 그대로 둡니다");
                 return true;
-            default:
-                System.out.println("    시스템 에러, 재료선택화면으로 돌아갑니다");
+            }
+        if(cookingtime == -1){       //요리 시간이 유효하지 않음
+            System.out.println("   유효하지 않은 요리 시간 입니다. 재료 화면으로 돌아갑니다");
+            makeLine();
+            return false;
+        }
+        else if(cookingtime == -2){  //요리 시간을 필요로 하지 않는 요리
+            if(!headChef.cooking(food, new_satus)){
+                System.out.println("    "+new_satus+"는 이미 된 상태입니다. 재료선택화면으로 돌아갑니다");
                 makeLine();
                 return false;
             }
-        if(!headChef.addStatus(food, new_satus)){
-            System.out.println("    재료 화면으로 돌아갑니다");
         }
+        else if(cookingtime > 0){
+            if(!headChef.cooking(food, new_satus, cookingtime)){
+                System.out.println("    "+new_satus+"는 이미 된 상태입니다. 재료선택화면으로 돌아갑니다");
+                makeLine();
+                return false;
+            }
+        }
+        System.out.println("    "+food.getName()+"을(를)성공적으로 "+new_satus+"했습니다");
         makeLine();
-        return false;
+        return true;
     }
 }
