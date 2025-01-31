@@ -44,6 +44,7 @@ public class Chef {
         if(!food.getStatus().add(new_status)){  //중복된 상태가 있으면 false
             return false;
         }
+        this.action_point--;
         return true;
     }
 
@@ -67,6 +68,7 @@ public class Chef {
             default:
                 break;
         }
+        this.action_point--;
         return true;
     }
 }
