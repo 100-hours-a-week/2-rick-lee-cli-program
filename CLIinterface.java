@@ -4,7 +4,7 @@ import java.util.Set;
 public class CLIinterface {
     Scanner sc = new Scanner(System.in);
 
-    private final int foodSelection = 2;    //재료 선택지 수
+    private final int foodSelection = 9;    //재료 선택지 수
     private final int vegeSeletion = 8;     //야채 손질 선택지 수
     private final int meatSeletion = 8;
     private final int seafoodSelection = 8;
@@ -46,7 +46,9 @@ public class CLIinterface {
 
     public void showFoodSelections(){
         System.out.println("    재료를 골라 주세요");
-        System.out.println("    1. 양파    2. 돼지 고기");
+        System.out.println("    1. 양파      2. 감자    3. 토마토");
+        System.out.println("    4. 돼지고기  5. 소고기  6. 닭고기");
+        System.out.println("    7. 연어      8. 참치    9. 가리비");
         System.out.println();
         System.out.print("  입력값: ");
     }
@@ -74,14 +76,14 @@ public class CLIinterface {
 
     private void showCookingTime(){
         System.out.println("    요리 시간을 설정해 주세요");
-        System.out.println("    시간 단위는 분이며, 1부터 60가지 설정할 수 있습니다");
+        System.out.println("    시간 단위는 분이며, 0부터 60가지 설정할 수 있습니다");
         System.out.print("    입력값: ");
     }
 
 
     //입력의 유효성을 검사하는 메서드
     private boolean checkSelection(int input, int selectionNum){ //선택지 입력 유효성 검사
-        if(input < 0 || input > selectionNum){
+        if(input < -1 || input > selectionNum){
             return false;
         }
         return true;
@@ -92,7 +94,7 @@ public class CLIinterface {
     public Food selectFood(){
         showFoodSelections();
         int input = sc.nextInt();
-        if(!checkSelection(input, foodSelection)){
+        if(input == 0 || !checkSelection(input, foodSelection)){
             System.out.println("    잘못된 선택입니다. 재료선택화면으로 돌아갑니다");
             makeLine();
             return null;
@@ -103,12 +105,32 @@ public class CLIinterface {
                 System.out.println("    양파를 고르셨습니다");
                 return new Onion();
             case 2:
+                System.out.println("    감자를 고르셨습니다");
+                return new Potato();
+            case 3:
+                System.out.println("    토마토를 고르셨습니다");
+                return new Tomato();
+            case 4:
                 System.out.println("    돼지고기를 고르셨습니다");
                 return new Pork();
-            default:
-                System.out.println("    시스템 에러, 재료선택화면으로 돌아갑니다");
-                makeLine();
+            case 5:
+                System.out.println("    소고기를 고르셨습니다");
+                return new Beef();
+            case 6:
+                System.out.println("    닭고기를 고르셨습니다");
+                return new Chicken();
+            case 7:
+                System.out.println("    연어를 고르셨습니다");
+                return new Salmon();
+            case 8:
+                System.out.println("    참치를 고르셨습니다");
+                return new Tuna();
+            case 9:
+                System.out.println("    가리비를 고르셨습니다");
+                return new Scallops();
+                
         }
+        makeLine();
         return null;
     }
 
@@ -233,7 +255,7 @@ public class CLIinterface {
                 makeLine();
                 return false;
             }
-            new_satus=choiceMeatPreps(input);
+            new_satus=choiceSeafoodPreps(input);
         }
         
 
