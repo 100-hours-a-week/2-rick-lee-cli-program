@@ -15,6 +15,8 @@ public class Main {
         Food[] dish = new Food[5];
         Food food = null;
         int dish_idx = 0;
+        int score= 0;
+        int MaxScore = 0;
 
         menu.startMenu();
         while (true) {
@@ -31,12 +33,20 @@ public class Main {
                 }
                 while(!menu.selectPrep(headChef, food));
 
-                
+                //정상적으로 손질을 마쳤다면 요리에 추가
+                dish[dish_idx] = food;
+                dish_idx++;
+
             }
-            //정상적으로 손질을 마쳤다면 요리에 추가
-            dish[dish_idx] = food;
-            dish_idx++;
+            //요리 채점
+            score = BackJongWon.scoreDish(dish);
+            System.out.println("최종점수: "+score);
+            if(score>MaxScore){
+                MaxScore = score;
+            }
+            System.out.println();
+            System.out.println("지금까지 최고점수: "+MaxScore);
         }
-        //요리 채점
+        
     }
 }

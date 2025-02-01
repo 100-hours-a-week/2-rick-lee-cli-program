@@ -34,7 +34,7 @@ public class Customer {
     private void checkEven(Food[] dish){
         for(int i = 0; i<dish.length; i++){
             if(dish[i] == null){
-                
+
             }
         }
 
@@ -46,6 +46,9 @@ public class Customer {
             return -100;
         }
 
+        for(String review : reviews){
+            System.out.println("    "+review);
+        }
         return dishScore;
     }
 }
