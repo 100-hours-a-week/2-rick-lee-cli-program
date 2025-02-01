@@ -103,6 +103,7 @@ public class CLIinterface {
         }
         return null;
     }
+
     private int selectCookingtime(){
         showCookingTime();
         int cookingtime = sc.nextInt();
@@ -158,27 +159,34 @@ public class CLIinterface {
             return "";
     }
 
+    //재료를 
     public boolean selectPrep(Chef headChef, Food food){
-        int input = sc.nextInt();
-        if(input == 0){              //내비둠을 선택
-            System.out.println("    "+food.getName()+"을 그대로 둡니다");
-            return true;
-        }
-
+        int input=0;
         String new_satus = "";
+
         if(food.getType().equals("vege")){
             showVegeSelecton();
+            input = sc.nextInt();
+            if(input == 0){              //내비둠을 선택
+                System.out.println("    "+food.getName()+"을 그대로 둡니다");
+                return true;
+            }
             if(!checkSelection(input, vegeSeletion)){ //입력값 유효성 검사
-                System.out.println("    잘못된 선택입니다. 재료선택화면으로 돌아갑니다");
+                System.out.println("    잘못된 선택입니다."+food.getName()+" 손질 화면으로 돌아갑니다");
                 makeLine();
                 return false;
             }
             new_satus=choiceVegePreps(input);
         }
         else if(food.getType().equals("meat")){
-            showMeatSelecton();
-            if(!checkSelection(input, meatSeletion)){ //입력값 유효성 검사
-                System.out.println("    잘못된 선택입니다. 재료선택화면으로 돌아갑니다");
+            showMeatSelecton();            
+            input = sc.nextInt();
+            if(input == 0){
+                System.out.println("    "+food.getName()+"을 그대로 둡니다");
+                return true;
+            }
+            if(!checkSelection(input, meatSeletion)){ 
+                System.out.println("    잘못된 선택입니다."+food.getName()+" 손질 화면으로 돌아갑니다");
                 makeLine();
                 return false;
             }
@@ -188,7 +196,7 @@ public class CLIinterface {
 
         if(input>0 && input<5){     //요리시간을 안쓰는 선택지들
             if(!headChef.cooking(food, new_satus)){
-                System.out.println("    "+new_satus+"는 이미 된 상태입니다. 재료선택화면으로 돌아갑니다");
+                System.out.println("    "+new_satus+"는 이미 된 상태입니다."+food.getName()+" 손질 화면으로 돌아갑니다");
                 makeLine();
                 return false;
             }
@@ -198,18 +206,36 @@ public class CLIinterface {
             int cookingtime;
             cookingtime = selectCookingtime();
             if(cookingtime == -1){       //요리 시간이 유효하지 않음
-                System.out.println("   유효하지 않은 요리 시간 입니다. 재료 화면으로 돌아갑니다");
+                System.out.println("   유효하지 않은 요리 시간 입니다." + food.getName()+ " 손질 화면으로 돌아갑니다");
+                makeLine();
                 makeLine();
                 return false;
             }
             if(!headChef.cooking(food, new_satus, cookingtime)){
-                System.out.println("    "+new_satus+"는 이미 된 상태입니다. 재료선택화면으로 돌아갑니다");
+                System.out.println("    "+new_satus+"는 이미 된 상태입니다" + food.getName()+ " 손질 화면으로 돌아갑니다");
                 makeLine();
                 return false;
             }
         }
         System.out.println("    "+food.getName()+"을(를)성공적으로 "+new_satus+"했습니다");
+        System.out.println();
+        System.out.println("    재료를 추가 손질 하시겠습니까?");
+        System.out.println("    1. 예    2. 아니오");
+        System.out.println();
+        System.out.print("    입력값: ");
+        input = sc.nextInt();
+        if(input == 1){
+            System.out.println("    "+food.getName()+"을(를) 추가 손질 합니다");
+            makeLine();
+            return false;
+        }
+        else if(input == 2){
+            System.out.println("    "+food.getName()+" 손질을 그만 둡니다");
+            makeLine();
+            return true;
+        }
+        System.out.println("    잘못된 선택입니다."+food.getName()+" 손질 화면으로 돌아갑니다");
         makeLine();
-        return true;
+        return false;
     }
 }

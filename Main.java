@@ -25,9 +25,8 @@ public class Main {
                 if(food == null){                        //선택 실패시 재료선택 화면으로 돌아감
                     continue;
                 }
-                if(!menu.selectPrep(headChef, food)){    //재료를 손질실패하면 다시 시작
-                    continue;
-                }
+                while(!menu.selectPrep(headChef, food));
+
                 
             }
             //정상적으로 손질을 마쳤다면 요리에 추가
