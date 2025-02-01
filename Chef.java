@@ -13,9 +13,9 @@ public class Chef {
     //행동 포인트
     private int action_point = 10;
     //시간당 요리방법의 온도
-    private int fry_heat = 4;
-    private int roast_heat = 3;
-    private int boil_heat = 2;
+    private int fry_heat = 10;
+    private int roast_heat = 5;
+    private int boil_heat = 3;
     private int steam_heat = 1;
 
     //setter, getter
@@ -65,6 +65,9 @@ public class Chef {
             case "찌기":
                 food.setHow_much_cooked(this.steam_heat*cookingtime);
                 break;
+            case "튀기기":
+            food.setHow_much_cooked(this.fry_heat*cookingtime);
+            break;
             default:
                 break;
         }
