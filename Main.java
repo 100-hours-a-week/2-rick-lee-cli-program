@@ -12,12 +12,13 @@ public class Main {
         Customer BackJongWon = new Customer();    //심사원 객체
 
         //요리(다섯개의 재료들의 Set)
-        Set<Food> dish = new HashSet<>();
+        Food[] dish = new Food[5];
         Food food = null;
+        int dish_idx = 0;
 
         menu.startMenu();
         while (true) {
-            while(dish.size() < 5 && headChef.getActionPoint() > 0){    //재료를 5가지 조리하거나 행동포인트를 다쓰면 탈출
+            while(dish_idx < 5 && headChef.getActionPoint() > 0){    //재료를 5가지 조리하거나 행동포인트를 다쓰면 탈출
                 System.out.println("현재 행동 점수: "+ headChef.getActionPoint());
                 System.out.println();
 
@@ -30,7 +31,8 @@ public class Main {
                 
             }
             //정상적으로 손질을 마쳤다면 요리에 추가
-            dish.add(food);
+            dish[dish_idx] = food;
+            dish_idx++;
         }
         //요리 채점
     }

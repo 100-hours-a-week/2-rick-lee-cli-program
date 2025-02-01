@@ -65,7 +65,7 @@ public class Chef {
             case "굽기":
                 food.setHow_much_cooked(this.roast_heat*cookingtime);
                 break;
-            case "볶기":
+            case "삶기":
                 food.setHow_much_cooked(this.boil_heat*cookingtime);
                 break;
             case "찌기":

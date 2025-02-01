@@ -7,6 +7,7 @@ public class CLIinterface {
     private final int foodSelection = 2;    //재료 선택지 수
     private final int vegeSeletion = 8;     //야채 손질 선택지 수
     private final int meatSeletion = 8;
+    private final int seafoodSelection = 8;
     private final int cookingtimeSelection = 60;
 
 
@@ -50,16 +51,23 @@ public class CLIinterface {
         System.out.print("  입력값: ");
     }
 
-    private void showVegeSelecton(){
+    private void showVegeSelection(){
         System.out.println("    요리 방법을 골라 주세요");
         System.out.println("    1. 채썰기    2. 깍뚝썰기    3. 다지기    4. 갈기");
         System.out.println("    5. 볶기      6. 삶기       7. 찌기      8. 튀기기    0. 냅두기");
         System.out.print("    입력값: ");
     }
 
-    private void showMeatSelecton(){
+    private void showMeatSelection(){
         System.out.println("    요리 방법을 골라 주세요");
-        System.out.println("    1. 밑간하기    2. 깍뚝썰기    3. 다지기    4. 갈기");
+        System.out.println("    1. 밑간하기    2.망치질하기     3. 다지기    4. 깍뚝썰기");
+        System.out.println("    5. 굽기      6. 삶기       7. 찌기      8. 튀기기    0. 냅두기");
+        System.out.print("    입력값: ");
+    }
+
+    private void showSeafoodSelection(){
+        System.out.println("    요리 방법을 골라 주세요");
+        System.out.println("    1. 밑간하기    2.비늘벗기기     3. 회뜨기    4. 깍뚝썰기");
         System.out.println("    5. 굽기      6. 삶기       7. 찌기      8. 튀기기    0. 냅두기");
         System.out.print("    입력값: ");
     }
@@ -142,11 +150,32 @@ public class CLIinterface {
             case 1:
                 return "밑간하기";
             case 2:
-                return "깍뚝썰기";
+                return "망치질하기";
             case 3:
                 return "다지기";
             case 4:
-                return "갈기";
+                return "깍뚝썰기";
+            case 5:
+                return "굽기";
+            case 6:
+                return "삶기";
+            case 7:
+                return "찌기";
+            case 8:
+                return "튀기기";
+            }
+            return "";
+    }
+    private String choiceSeafoodPreps(int input){
+        switch (input) {
+            case 1:
+                return "밑간하기";
+            case 2:
+                return "비늘 벗기기";
+            case 3:
+                return "회뜨기";
+            case 4:
+                return "깍뚝썰기";
             case 5:
                 return "굽기";
             case 6:
@@ -165,7 +194,7 @@ public class CLIinterface {
         String new_satus = "";
 
         if(food.getType().equals("vege")){
-            showVegeSelecton();
+            showVegeSelection();
             input = sc.nextInt();
             if(input == 0){              //내비둠을 선택
                 System.out.println("    "+food.getName()+"을 그대로 둡니다");
@@ -179,13 +208,27 @@ public class CLIinterface {
             new_satus=choiceVegePreps(input);
         }
         else if(food.getType().equals("meat")){
-            showMeatSelecton();            
+            showMeatSelection();            
             input = sc.nextInt();
             if(input == 0){
                 System.out.println("    "+food.getName()+"을 그대로 둡니다");
                 return true;
             }
             if(!checkSelection(input, meatSeletion)){ 
+                System.out.println("    잘못된 선택입니다."+food.getName()+" 손질 화면으로 돌아갑니다");
+                makeLine();
+                return false;
+            }
+            new_satus=choiceMeatPreps(input);
+        }
+        else if(food.getType().equals("seafood")){
+            showSeafoodSelection();            
+            input = sc.nextInt();
+            if(input == 0){
+                System.out.println("    "+food.getName()+"을 그대로 둡니다");
+                return true;
+            }
+            if(!checkSelection(input, seafoodSelection)){ 
                 System.out.println("    잘못된 선택입니다."+food.getName()+" 손질 화면으로 돌아갑니다");
                 makeLine();
                 return false;
