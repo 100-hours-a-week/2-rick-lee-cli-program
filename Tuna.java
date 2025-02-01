@@ -3,5 +3,7 @@ public class Tuna extends Seafood{
         super();
         this.name = "참치";
         this.best_dgree = new int[]{50, 60};
+        this.best_status = new String[]{"회뜨기", "비늘벗기기"};
+        this.worst_status = new String[]{"굽기", "삶기"};
     }
 }

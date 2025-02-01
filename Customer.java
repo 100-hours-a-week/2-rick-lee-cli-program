@@ -14,20 +14,20 @@ public class Customer {
 
 
     //재료 조합에 대한 가점 메서드
-    private void addCombinationPoint(Set<Food> dish){
+    private void addCombinationPoint(Food[] dish){
         
     }
     //중복 재료에 대한 감점 메서드
-    private void minusCombinationPoint(Set<Food> dish){
+    private void minusCombinationPoint(Food[] dish){
 
     }
     //재료와 조리법에 대한 가점 메서드
-    private void addRecipe(Set<Food> dish){
+    private void addRecipe(Food[] dish){
 
     }
 
     //재료와 조리법에 대한 감점 메서드
-    private void minusRecipe(Set<Food> dish){
+    private void minusRecipe(Food[] dish){
 
     }
     //재료의 익힘 정도에 대한 체점 메서드
@@ -35,8 +35,8 @@ public class Customer {
 
     }
     //최종 체점 메서드
-    public int scoreDish(Set<Food> dish){
-        if(dish.isEmpty()){
+    public int scoreDish(Food[] dish){
+        if(dish[0] == null){
             reviews.add("지금 장난 하시는 건가요?");
             return -100;
         }
