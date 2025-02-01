@@ -24,6 +24,9 @@ public class Main {
 
                 food = menu.selectFood();
                 if(food == null){                        //선택 실패시 재료선택 화면으로 돌아감
+                    if(menu.selectEnd()){
+                        break;
+                    }
                     continue;
                 }
                 while(!menu.selectPrep(headChef, food));

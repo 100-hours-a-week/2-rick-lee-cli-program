@@ -50,7 +50,7 @@ public class CLIinterface {
         System.out.println("    4. 돼지고기  5. 소고기  6. 닭고기");
         System.out.println("    7. 연어      8. 참치    9. 가리비");
         System.out.println();
-        System.out.print("  입력값: ");
+        System.out.print("    입력값: ");
     }
 
     private void showVegeSelection(){
@@ -95,6 +95,7 @@ public class CLIinterface {
         showFoodSelections();
         int input = sc.nextInt();
         if(input == 0 || !checkSelection(input, foodSelection)){
+            System.out.println();
             System.out.println("    잘못된 선택입니다. 재료선택화면으로 돌아갑니다");
             makeLine();
             return null;
@@ -132,17 +133,6 @@ public class CLIinterface {
         }
         makeLine();
         return null;
-    }
-
-    private int selectCookingtime(){
-        showCookingTime();
-        int cookingtime = sc.nextInt();
-        makeLine();
-
-        if(!checkSelection(cookingtime, cookingtimeSelection)){
-            return -1;
-        }
-        return cookingtime;
     }
 
     private String choiceVegePreps(int input){
@@ -210,7 +200,44 @@ public class CLIinterface {
             return "";
     }
 
-    //재료를 
+    private int selectCookingtime(){
+        showCookingTime();
+        int cookingtime = sc.nextInt();
+        makeLine();
+
+        if(!checkSelection(cookingtime, cookingtimeSelection)){
+            return -1;
+        }
+        return cookingtime;
+    }
+
+    public boolean selectEnd(){
+        System.out.println("   이대로 요리를 끝내시겠습니까?");
+        System.out.println("   1. 예    2. 아니오");
+        System.out.println();
+        System.out.print("    입력값:");
+        int input = sc.nextInt();
+        if(input == 1){
+            System.out.println();
+            System.out.println("    요리를 종료하고 심사위언의 평가를 받습니다...");
+            System.out.println();
+            makeLine();
+            return true;
+        }
+        else if(input == 2){
+            System.out.println("    요리를 계속합니다. 재료선택 화면으로 돌아갑니다");
+            System.out.println();
+            makeLine();
+            return false;
+        }
+        else{
+            System.out.println("    잘못된 입력입니다. 자동으로 다음으로 넘어갑니다");
+            System.out.println();
+            makeLine();
+            return false;
+        }
+    }
+    //재료 손질 선택
     public boolean selectPrep(Chef headChef, Food food){
         int input=0;
         String new_satus = "";

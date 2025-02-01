@@ -31,7 +31,12 @@ public class Customer {
 
     }
     //재료의 익힘 정도에 대한 체점 메서드
-    private void checkEven(){
+    private void checkEven(Food[] dish){
+        for(int i = 0; i<dish.length; i++){
+            if(dish[i] == null){
+                
+            }
+        }
 
     }
     //최종 체점 메서드
