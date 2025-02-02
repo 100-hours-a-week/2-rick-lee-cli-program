@@ -109,6 +109,7 @@ public class Customer {
         while (idx<5&&dish[idx]!=null) {
             Food food = dish[idx];
             if(food.getStatus().contains("회뜨기")){    //재료가 회뜨기상태면 pass
+                idx++;
                 continue;
             }
             int foodDgree = food.getHow_much_cooked();
