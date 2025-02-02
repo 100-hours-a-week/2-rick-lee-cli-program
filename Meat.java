@@ -1,5 +1,3 @@
-import java.util.Set;
-
 public abstract class Meat extends Food{
     Meat(){
         this.type = "meat";

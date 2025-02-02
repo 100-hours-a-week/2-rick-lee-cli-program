@@ -10,7 +10,7 @@ import java.util.HashSet;
 public class Customer {
     private int dishScore = 0;
     private ArrayList<String> reviews = new ArrayList<>();
-    
+    private String[][] goodCombinationList = new String[][]{{"소고기", "감자"}, {"연어", "양파"}, {"가리비", "토마토"}};
 
     //getter
     protected ArrayList<String> getReviews(){return this.reviews;}
@@ -19,17 +19,48 @@ public class Customer {
 
     //재료 조합에 대한 가점 메서드
     private void addCombinationPoint(Food[] dish){
-        
+        boolean hasGoodCombi = false;
+        Set<String> foodSet = new HashSet<>();
+        int idx=0;
+        while(idx<5&&dish[idx]!=null){
+            foodSet.add(dish[idx].getName());
+            idx++;
+        }
+        for(String[] goodCombi : goodCombinationList){
+            for(String combi_A : goodCombi){
+                if(!foodSet.contains(combi_A)){
+                    break;
+                }
+                hasGoodCombi = true;
+                this.dishScore += 10;
+            }
+        }
+        if(hasGoodCombi){
+            reviews.add("좋은 재료 조합의 요리네요");
+        }
     }
     //중복 재료에 대한 감점 메서드
     private void minusCombinationPoint(Food[] dish){
+        boolean hasSameFood = false;
+        Set<String> foodSet = new HashSet<String>();
+        int idx = 0;
+        while(idx<5&&dish[idx]!=null){
+            if(!foodSet.add(dish[idx].getName())){
+                this.dishScore -= 5;
+                hasSameFood = true;
+            }
+            idx++;
+        }
+        if(hasSameFood){
+            reviews.add("같은 재료가 있는 게 아쉽네요...");
+        }
 
     }
     //재료와 조리법에 대한 가점 메서드
     private void addRecipe(Food[] dish){
         boolean isGreat = false;
         int idx=0;
-        while(dish[idx]!=null){
+        while(idx<5&&dish[idx]!=null){
             Food food = dish[idx];
             String[] best_statusArr = food.getBestStatus();
             for(int i = 0; i<best_statusArr.length; i++){
@@ -50,7 +81,7 @@ public class Customer {
     private void minusRecipe(Food[] dish){
         boolean isBad = false;
         int idx=0;
-        while(dish[idx]!=null){
+        while(idx<5&&dish[idx]!=null){
             Food food = dish[idx];
             String[] worst_statusArr = food.getWorstStatus();
             for(int i = 0; i<worst_statusArr.length; i++){
@@ -75,7 +106,7 @@ public class Customer {
         boolean isBad = false;
         boolean isWorst = false;
 
-        while (dish[idx] == null) {
+        while (idx<5&&dish[idx]!=null) {
             Food food = dish[idx];
             if(food.getStatus().contains("회뜨기")){    //재료가 회뜨기상태면 pass
                 continue;
@@ -102,6 +133,7 @@ public class Customer {
                 this.dishScore -= 10;
                 isWorst = true;
             }
+            idx++;
         }
 
         if(isPerfect){
@@ -125,9 +157,10 @@ public class Customer {
             this.dishScore = -100;
             return;
         }
-
+        addCombinationPoint(dish);
+        minusCombinationPoint(dish);
         addRecipe(dish);
         minusRecipe(dish);
-
+        checkEven(dish);
     }
 }

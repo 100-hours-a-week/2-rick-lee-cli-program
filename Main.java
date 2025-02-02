@@ -13,11 +13,11 @@ public class Main {
         int score= 0;
         int MaxScore = 0;
 
+        menu.startMenu();
         while (true) {
-            menu.startMenu();
             headChef = new Chef();
             while(dish_idx < 5 && headChef.getActionPoint() > 0){    //재료를 5가지 조리하거나 행동포인트를 다쓰면 탈출
-                System.out.println("현재 행동 점수: "+ headChef.getActionPoint());
+                System.out.println("    현재 행동 점수: "+ headChef.getActionPoint());
                 System.out.println();
 
                 food = menu.selectFood();

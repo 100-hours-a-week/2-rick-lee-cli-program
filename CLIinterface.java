@@ -57,6 +57,7 @@ public class CLIinterface {
         System.out.println("    요리 방법을 골라 주세요");
         System.out.println("    1. 채썰기    2. 깍뚝썰기    3. 다지기    4. 갈기");
         System.out.println("    5. 볶기      6. 삶기       7. 찌기      8. 튀기기    0. 냅두기");
+        System.out.println();
         System.out.print("    입력값: ");
     }
 
@@ -64,6 +65,7 @@ public class CLIinterface {
         System.out.println("    요리 방법을 골라 주세요");
         System.out.println("    1. 밑간하기    2.망치질하기     3. 다지기    4. 깍뚝썰기");
         System.out.println("    5. 굽기      6. 삶기       7. 찌기      8. 튀기기    0. 냅두기");
+        System.out.println();
         System.out.print("    입력값: ");
     }
 
@@ -71,12 +73,14 @@ public class CLIinterface {
         System.out.println("    요리 방법을 골라 주세요");
         System.out.println("    1. 밑간하기    2.비늘벗기기     3. 회뜨기    4. 깍뚝썰기");
         System.out.println("    5. 굽기      6. 삶기       7. 찌기      8. 튀기기    0. 냅두기");
+        System.out.println();
         System.out.print("    입력값: ");
     }
 
     private void showCookingTime(){
         System.out.println("    요리 시간을 설정해 주세요");
         System.out.println("    시간 단위는 분이며, 0부터 60가지 설정할 수 있습니다");
+        System.out.println();
         System.out.print("    입력값: ");
     }
 
@@ -340,6 +344,11 @@ public class CLIinterface {
         System.out.println("     ◆심사위원의 총평◆");
         System.out.println();
         for(String review : BackJongWon.getReviews()){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             System.out.println("    "+review);
         }
         System.out.println();
