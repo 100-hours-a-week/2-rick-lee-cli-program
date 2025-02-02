@@ -48,7 +48,7 @@ public class CLIinterface {
         System.out.println("    재료를 골라 주세요");
         System.out.println("    1. 양파      2. 감자    3. 토마토");
         System.out.println("    4. 돼지고기  5. 소고기  6. 닭고기");
-        System.out.println("    7. 연어      8. 참치    9. 가리비");
+        System.out.println("    7. 연어      8. 참치    9. 가리비    0.요리 끝내기");
         System.out.println();
         System.out.print("    입력값: ");
     }
@@ -294,7 +294,7 @@ public class CLIinterface {
             }
         }
         
-        else if(input>4 && input<8){    //요리시간을 쓰는 요리들
+        else if(input>4 && input<9){    //요리시간을 쓰는 요리들
             int cookingtime;
             cookingtime = selectCookingtime();
             if(cookingtime == -1){       //요리 시간이 유효하지 않음
@@ -329,5 +329,22 @@ public class CLIinterface {
         System.out.println("    잘못된 선택입니다."+food.getName()+" 손질 화면으로 돌아갑니다");
         makeLine();
         return false;
+    }
+
+    //최종 결과를 출력하는 메서드
+    public int showDishScore(Food[] dish){
+        Customer BackJongWon = new Customer();
+        BackJongWon.gradingDish(dish);
+
+        System.out.println();
+        System.out.println("     ◆심사위원의 총평◆");
+        System.out.println();
+        for(String review : BackJongWon.getReviews()){
+            System.out.println("    "+review);
+        }
+        System.out.println();
+        System.out.println("    최종점수: "+BackJongWon.getDishScore());
+        makeLine();
+        return BackJongWon.getDishScore();
     }
 }
