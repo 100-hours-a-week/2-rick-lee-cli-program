@@ -15,8 +15,6 @@ public class Customer {
 
     //getter
     protected ArrayList<String> getReviews(){return this.reviews;}
-    protected int getDishScore(){return this.dishScore;}
-
 
     //재료 조합에 대한 가점 메서드
     private void addCombinationPoint(Food[] dish){
@@ -164,5 +162,6 @@ public class Customer {
         addRecipe(dish);
         minusRecipe(dish);
         checkEven(dish);
+        this.reviews.add("제 최종점수는 "+this.dishScore+"점 입니다.");
     }
 }
