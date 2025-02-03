@@ -22,7 +22,7 @@ public class UserInteract {
             return false;
         }
 
-        if(dish_idx>5){
+        if(dish_idx>=5){
             logger.info("dish의 재료를 모두 채움");
             return false;
         }
@@ -63,8 +63,8 @@ public class UserInteract {
     //dish에 food 추가하는 메서드
     public void answerAddDish(){
         dish[dish_idx] = food;
-        dish_idx++;
         logger.info("Dish["+dish_idx+"]에 "+food.getName()+" 추가");
+        dish_idx++;
     }
 
     //심사평을 반환하는 메서드

@@ -153,8 +153,8 @@ public class Customer {
     //최종 체점 메서드
     public void gradingDish(Food[] dish){
         if(dish[0] == null){
-            reviews.add("지금 장난하시는 건가요?");
-            this.dishScore = -100;
+            this.reviews.add("지금 장난하시는 건가요?");
+            this.reviews.add("-100점 입니다.");
             return;
         }
         addCombinationPoint(dish);

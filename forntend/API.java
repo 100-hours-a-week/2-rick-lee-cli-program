@@ -16,7 +16,7 @@ public class API {
     API(){
         this.cookingStatus.add("굽기");
         this.cookingStatus.add("찌기");
-        this.cookingStatus.add("삷기");
+        this.cookingStatus.add("삶기");
         this.cookingStatus.add("튀기기");
     }
 
@@ -25,10 +25,10 @@ public class API {
 
     //입력의 유효성을 검사하는 메서드
     private boolean checkSelection(int input, int selectionNum){ //선택지 입력 유효성 검사
-        if(input < 0 || input > selectionNum){
-            return false;
+        if(input > -1 && input <= selectionNum){
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean checkKeepPlaying(){
@@ -44,8 +44,6 @@ public class API {
         }
         String food_name = "";
         switch (input) {
-            case 0:
-                return false;
             case 1:
                 food_name = "양파";
                 break;
@@ -75,7 +73,6 @@ public class API {
                 break;
         }
         if(server.answerFoodSelectRequest(food_name)){
-            front.showCurrentFood(food_name);
             return true;
         }
         front.showFoodDenied();
@@ -171,6 +168,7 @@ public class API {
             }
             if(input == 0){
                 front.showStatusSucess(foodName, "냅두기");
+                return true;
             }
             new_status = getVegePrepString(input);
         }
@@ -182,6 +180,7 @@ public class API {
             }
             if(input == 0){
                 front.showStatusSucess(foodName, "냅두기");
+                return true;
             }
             new_status = getMeatPrepString(input);
         }
@@ -193,6 +192,7 @@ public class API {
             }
             if(input == 0){
                 front.showStatusSucess(foodName, "냅두기");
+                return true;
             }
 
             new_status = getSeafoodPrepString(input);

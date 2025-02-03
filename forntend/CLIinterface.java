@@ -52,9 +52,9 @@ public class CLIinterface {
         println("재료를 골라 주세요");
         println("1. 양파      2. 감자    3. 토마토");
         println("4. 돼지고기  5. 소고기  6. 닭고기");
-        println("7. 연어      8. 참치    9. 가리비    0.요리 끝내기");
+        println("7. 연어      8. 참치    9. 가리비");
         System.out.println();
-        println("입력값: ");
+        print("입력값: ");
         input = sc.nextInt();
         makeLine();
         return input;
@@ -154,7 +154,7 @@ public class CLIinterface {
         print("이대로 요리를 끝내시겠습니까?");
         print("   1. 예    2. 아니오");
         System.out.println();
-        print("    입력값:");
+        print("입력값:");
         int input = sc.nextInt();
         makeLine();
         return input;
