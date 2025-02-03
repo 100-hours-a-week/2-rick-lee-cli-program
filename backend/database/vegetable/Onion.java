@@ -1,5 +1,6 @@
+package backend.database.vegetable;
 public class Onion extends Vegetable{
-    Onion(){
+    public Onion(){
         super();
         this.name = "양파";
         this.best_dgree = new int[]{30, 40};

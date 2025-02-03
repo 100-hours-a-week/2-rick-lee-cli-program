@@ -1,3 +1,6 @@
+package backend.database.vegetable;
+
+import backend.Food;
 
 public class Vegetable extends Food{
     Vegetable(){

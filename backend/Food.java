@@ -1,3 +1,4 @@
+package backend;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ public class Food {
     protected Set<String> status = new HashSet<String>();    //재료의 손질 상태
     protected boolean isCuted = false;                       //재료가 잘려있는지
 
-    protected String getName(){return this.name;}
+    public String getName(){return this.name;}
     protected void addStatus(String new_status){
         status.add(new_status);
     }
@@ -19,7 +20,7 @@ public class Food {
     protected int[] getBest_dgree(){return this.best_dgree;}
     protected int getHow_much_cooked(){return this.how_much_cooked;}
     protected void setHow_much_cooked(int dgree){this.how_much_cooked = dgree;}
-    protected Set getStatus(){return this.status;}
+    protected Set<String> getStatus(){return this.status;}
     protected boolean isCuted(){return this.isCuted;}
     protected void setCuted(){this.isCuted = true;}
     protected String[] getBestStatus(){return this.best_status;}

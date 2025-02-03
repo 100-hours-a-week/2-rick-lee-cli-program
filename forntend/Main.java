@@ -1,10 +1,14 @@
+package forntend;
 import java.util.Scanner;
+
+import backend.Chef;
+import backend.Food;
 public class Main {
 
     public static void main(String[] args) {
         //객체 선언
         CLIinterface menu = new CLIinterface();
-        Chef headChef;               //셰프 객체
+        Chef headChef;
 
         //요리(다섯개의 재료들의 Set)
         Food[] dish = new Food[5];
@@ -32,7 +36,7 @@ public class Main {
                 //정상적으로 손질을 마쳤다면 요리에 추가
                 dish[dish_idx] = food;
                 dish_idx++;
-
+//
             }
             //요리 채점
             score = menu.showDishScore(dish);

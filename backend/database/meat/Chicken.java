@@ -1,5 +1,7 @@
+package backend.database.meat;
+
 public class Chicken extends Meat{
-    Chicken(){
+    public Chicken(){
         super();
         this.name = "치킨";
         this.best_dgree = new int[]{50, 60};

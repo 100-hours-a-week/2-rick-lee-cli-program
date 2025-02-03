@@ -1,5 +1,6 @@
+package backend.database.seafood;
 public class Scallops extends Seafood{
-    Scallops(){
+    public Scallops(){
         super();
         this.name = "가리비";
         this.best_dgree = new int[]{20, 30};
