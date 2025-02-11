@@ -1,12 +1,13 @@
 package forntend;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import backend.domain.ingredients.service.FoodService;
+import backend.domain.preps.service.PrepsHandler;
+import backend.domain.score.service.ScoringService;
+import common.Food;
 
 /**
- * 액션포인트 관리 및
+ * 액션포인트 와 현재 요리 관리 및
  * 각 도메인으로 기능 요청
  */
 public class Controller {
@@ -16,9 +17,19 @@ public class Controller {
     private final int seafoodSelection = 8;                     //해산물 손질 선택지 범위
     private final int cookingtimeSelection = 60;                //요리 시간 선택지 범위
 
-    private int action_point = 10;
+    private int actionPoint = 10;
+    private Food[] dish = new Food[5];
+    private int dish_idx = 0;
+    private Food food;
 
-    Viewer front = new Viewer();
+    
+    Viewer front;
+    FoodService foodService = new FoodService();
+    PrepsHandler prepService = new PrepsHandler();
+    ScoringService scoringService = new ScoringService();
+    public Controller(ViewThread viewThread){
+        front = new Viewer(viewThread);
+    }
 
     //입력의 유효성을 검사하는 메서드
     private boolean checkSelection(int input, int selectionNum){ //선택지 입력 유효성 검사
@@ -28,155 +39,114 @@ public class Controller {
         return false;
     }
 
-    public boolean checkKeepPlaying(){
-        return server.answerKeepPlaying();
+    public boolean checkActionPoint(){
+        if(actionPoint>0){
+            return true;
+        }
+        return false;
     }
+    public boolean checkDish(){
+        if(dish_idx<5){
+            return true;
+        }
+        return false;
+    }
+
+
 
     //선택지 인터페이스호출, 선택된 재료 요청을 server로 보냄
     protected boolean selectFood(){
         int input = front.getFoodSelections();
         if(!checkSelection(input, foodSelection)){
-            front.showFoodDenied();
-            return false;
-        }
-        String food_name = "";
-        switch (input) {
-            case 1:
-                food_name = "양파";
-                break;
-            case 2:
-                food_name = "감자";
-                break;
-            case 3:
-                food_name = "토마토";
-                break;
-            case 4:
-                food_name = "돼지고기";
-                break;
-            case 5:
-                food_name = "소고기";
-                break;
-            case 6:
-                food_name = "닭고기";
-                break;
-            case 7:
-                food_name = "연어";
-                break;
-            case 8:
-                food_name = "참치";
-                break;
-            case 9:
-                food_name = "가리비";
-                break;
-        }
-        if(server.answerFoodSelectRequest(food_name)){
-            return true;
-        }
-        front.showFoodDenied();
-        return false;
-    }
-    
-
-    //재료 손질 선택
-    public boolean selectPrep(){
-        int input = 0;
-        String foodType = server.answerCurrentFoodType();
-        if(foodType == null){       //타입 유효성 검사
-            front.showSatusDenied();
+            front.showFoodDenied("잘못된 입력입니다");
             return false;
         }
 
-        String foodName = server.answerCurrentFoodName();
-        front.showCurrentFood(foodName);
-        front.showActionPoint(server.answerActionPoint());
-
-        String new_status="";
-        if(foodType.equals("vege")){
-            input = front.getVegeSelection();
-            if(!checkSelection(input, vegeSeletion)){   //선택지 유효성 검사
-                front.showSatusDenied();
-                return false;
-            }
-            if(input == 0){
-                front.showStatusSucess(foodName, "냅두기");
-                return true;
-            }
-            new_status = getVegePrepString(input);
+        try{
+            this.food = foodService.answerFoodSelect(input);
         }
-        else if(foodType.equals("meat")){
-            input = front.getMeatSelection();
-            if(!checkSelection(input, meatSeletion)){   //선택지 유효성 검사
-                front.showSatusDenied();
-                return false;
-            }
-            if(input == 0){
-                front.showStatusSucess(foodName, "냅두기");
-                return true;
-            }
-            new_status = getMeatPrepString(input);
-        }
-        else if(foodType.equals("seafood")){
-            input = front.getSeafoodSelection();
-            if(!checkSelection(input, seafoodSelection)){   //선택지 유효성 검사
-                front.showSatusDenied();
-                return false;
-            }
-            if(input == 0){
-                front.showStatusSucess(foodName, "냅두기");
-                return true;
-            }
-
-            new_status = getSeafoodPrepString(input);
-        }
-
-        if(cookingStatus.contains(new_status)){     //요리 시간을 필요로하는 손질이라면 요리 시간을 추가 입력
-            int cookingtime = front.getCookingTime();
-            if(!checkSelection(input, cookingtimeSelection)){
-                front.showSatusDenied();
-                return false;
-            }
-            if(!server.answerAddStatus(new_status, cookingtime)){
-                front.showSatusDenied();
-                return false;
-            }
-        }
-        else{                                       //요리 시간이 필요로 하지 않는다면 서버에 입력값 전송
-            if(!server.answerAddStatus(new_status)){
-                front.showSatusDenied();
-                return false;
-            }
+        catch(NullPointerException e){
+            front.showFoodDenied(e.getMessage());
+            return false;
         }
         return true;
     }
     
+    //재료 손질 선택
+    public boolean selectPrep(){
+        int input = 0;
+        String foodType = this.food.getType();
+        String foodName = this.food.getName();
+        int selectionRange = 0;
+        
+        if(foodType.equals("vege")){
+            selectionRange = vegeSeletion;
+        }
+        else if(foodType.equals("meat")){
+            selectionRange = meatSeletion;
+        }
+        else if(foodType.equals("seafood")){
+            selectionRange = seafoodSelection;
+        }
+        
+        input = front.getPrepsSelection(foodType, foodName, actionPoint);
+
+        if(!checkSelection(input, selectionRange)){   //선택지 유효성 검사
+            front.showSatusDenied("잘못된 선택입니다");
+            return false;
+        }
+        if(input == 0){
+            front.showStatusSuccess(foodName);
+            return true;
+        }
+        
+        try{
+            prepService.answerAddStatus(food, input);
+            front.showStatusSuccess(foodName);
+        }
+        catch(IllegalStateException e){
+            front.showSatusDenied(e.getMessage());
+            return false;
+        }
+        catch(IllegalArgumentException e){
+            selectCookingtime(food, input);
+        }
+        actionPoint--;
+        return true;
+    }
+
+    private boolean selectCookingtime(Food food, int input){
+        int cookingtime = front.getCookingTime();
+        if(!checkSelection(cookingtime, cookingtimeSelection)){
+            front.showSatusDenied("잘못된 입력입니다.");
+            return false;
+        }
+        
+        try{
+            prepService.answerAddStatus(food, input, cookingtime);
+        }
+        catch(IllegalStateException e){
+            front.showSatusDenied(e.getMessage());
+        }
+        return true;
+    }
     protected boolean selectKeepPrep(){
         int input = front.getKeepPrep();
         if(input == 1){     //재료 손질을 계속
-            return false;
+            return true;
         }
         else if(input == 2){//재료 손질을 그만둠
-            server.answerAddDish();
-            return true;
-        }
-        front.showEndDenied();
-            return false;
-    }
-
-    public boolean selectEnd(){
-        int input = front.getEndSelection();
-        if(input == 1){
-            return true;
-        }
-        else if(input == 2){
+            dish[dish_idx] = food;
+            dish_idx++;
             return false;
         }
-        front.showEndDenied();
-        return false;
+        front.showSatusDenied("잘못된 선택입니다");
+        return true;
     }
 
     public void showResult(){
         ArrayList<String> reviews = new ArrayList<String>();
-        reviews = server.answerReviewRequest();
+        reviews = scoringService.gradingDish(this.dish);
         front.showDishScore(reviews);
     }
 

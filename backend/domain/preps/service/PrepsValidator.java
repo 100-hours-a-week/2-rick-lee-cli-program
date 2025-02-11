@@ -53,8 +53,8 @@ public class PrepsValidator {
     }
     //재료에 이미 처리된 손질을 중복으로 요청하는 경우
     private boolean checkDoubleStatus(Food food, String new_status){
-        if(!food.getStatus().add(new_status)){
-            throw new IllegalStateException("이미"+new_status+"된 재료 입니다");
+        if(food.getStatus().contains(new_status)){
+            throw new IllegalStateException("이미 "+new_status+"된 재료 입니다");
         }
         return true;
     }

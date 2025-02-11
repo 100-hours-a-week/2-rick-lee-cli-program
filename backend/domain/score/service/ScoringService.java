@@ -16,8 +16,21 @@ public class ScoringService {
     private ArrayList<String> reviews = new ArrayList<>();
     private String[][] goodCombinationList = new String[][]{{"소고기", "감자"}, {"연어", "양파"}, {"가리비", "토마토"}};
 
-    //getter
-    protected ArrayList<String> getReviews(){return this.reviews;}
+    //최종 체점 메서드
+    public ArrayList<String> gradingDish(Food[] dish){
+        if(dish[0] == null){
+            this.reviews.add("지금 장난하시는 건가요?");
+            this.reviews.add("-100점 입니다.");
+            return this.reviews;
+        }
+        addCombinationPoint(dish);
+        minusCombinationPoint(dish);
+        addRecipe(dish);
+        minusRecipe(dish);
+        checkEven(dish);
+        this.reviews.add("제 최종점수는 "+this.dishScore+"점 입니다.");
+        return this.reviews;
+    }
 
     //재료 조합에 대한 가점 메서드
     private void addCombinationPoint(Food[] dish){
@@ -130,11 +143,11 @@ public class ScoringService {
             //감점
             else if(foodDgree<(bottomCutoff-range*5) || foodDgree>(topCutoff+range*5)){   //익힘정도가 오차범위 500%밖이면 -30점
                 this.dishScore -= 30;
-                isBad = true;
+                isWorst = true;
             }
             else if(foodDgree<(bottomCutoff-range*2) || foodDgree>(topCutoff+range*2)){   //익힘정도가 오차범위 200%밖이면 -10점
                 this.dishScore -= 10;
-                isWorst = true;
+                isBad = true;
             }
             idx++;
         }
@@ -152,19 +165,5 @@ public class ScoringService {
             reviews.add("몇 재료의 익힘정도가 끔찍하네요");
         }
 
-    }
-    //최종 체점 메서드
-    public void gradingDish(Food[] dish){
-        if(dish[0] == null){
-            this.reviews.add("지금 장난하시는 건가요?");
-            this.reviews.add("-100점 입니다.");
-            return;
-        }
-        addCombinationPoint(dish);
-        minusCombinationPoint(dish);
-        addRecipe(dish);
-        minusRecipe(dish);
-        checkEven(dish);
-        this.reviews.add("제 최종점수는 "+this.dishScore+"점 입니다.");
     }
 }

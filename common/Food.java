@@ -17,12 +17,12 @@ public class Food {
         status.add(new_status);
     }
     public String getType(){return this.type;}
-    protected int[] getBest_dgree(){return this.best_dgree;}
-    protected int getHow_much_cooked(){return this.how_much_cooked;}
+    public int[] getBest_dgree(){return this.best_dgree;}
+    public int getHow_much_cooked(){return this.how_much_cooked;}
     public void setHow_much_cooked(int dgree){this.how_much_cooked = dgree;}
     public Set<String> getStatus(){return this.status;}
     public boolean isCuted(){return this.isCuted;}
     public void setCuted(){this.isCuted = true;}
-    protected String[] getBestStatus(){return this.best_status;}
-    protected String[] getWorstStatus(){return this.worst_status;}
+    public String[] getBestStatus(){return this.best_status;}
+    public String[] getWorstStatus(){return this.worst_status;}
 }
