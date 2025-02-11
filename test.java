@@ -1,6 +1,6 @@
 import java.util.*;
 
-import backend.Food;
+import common.Food;
 
 public class test {
 
