@@ -39,5 +39,6 @@
 
 
 ## 시연 영상
-![GIFMaker_me](https://github.com/user-attachments/assets/54cddadd-92ee-49a6-84b5-2b1431c012b6)
+![Main java-hyups-kitchen-VisualStudioCode2025-02-1300-34-44-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/c768a60a-ade5-4515-b054-12696e702df7)
+
 
